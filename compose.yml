@@ -46,7 +46,7 @@ services:
     networks:
       - redisnet
     ports:
-      - "8080:8080"   
+      - "8086:8080"   
 
 networks:
   redisnet:
