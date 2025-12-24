@@ -123,9 +123,15 @@ func main() {
 	router.HandleFunc("/board/{id}", frontendIndexHandler).Methods("GET")
 	router.HandleFunc("/", frontendIndexHandler).Methods("GET")
 
-	//err := http.ListenAndServe(":8080", nil)
-	logger.Info("Server listening on port 8080")
-	if err := http.ListenAndServe(":8080", router); err != nil {
+	// Get port from environment variable, default to 8080
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	//err := http.ListenAndServe(":" + port, nil)
+	logger.Info(fmt.Sprintf("Server listening on port %s", port))
+	if err := http.ListenAndServe(":" + port, router); err != nil {
 		logger.Error(err.Error())
 		os.Exit(1)
 	}

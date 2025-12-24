@@ -4,7 +4,10 @@
 # allowed_origins = [
 #     "https://example.com"
 # ]
+# Note: Port is configured via PORT environment variable (default: 8080)
 allowed_origins = [
+    "http://localhost:8086",
+    "https://localhost:8086",
     "http://localhost:8080",
     "https://localhost:8080",
     "http://localhost:5173",
