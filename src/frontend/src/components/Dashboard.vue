@@ -1030,7 +1030,8 @@ const handleConnectivity = () => {
 }
 
 onMounted(() => {
-    const websocketProtocol = import.meta.env.VITE_WS_PROTOCOL || 'wss'
+    // Auto-detect WebSocket protocol based on page protocol (http -> ws, https -> wss)
+    const websocketProtocol = import.meta.env.VITE_WS_PROTOCOL || (window.location.protocol === 'https:' ? 'wss' : 'ws')
     socket = new WebSocket(`${websocketProtocol}://${document.location.host}/ws/board/${board}/user/${user}/meet`)
     socket.onopen = socketOnOpen
     socket.onclose = socketOnClose
