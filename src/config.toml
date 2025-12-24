@@ -12,6 +12,12 @@ allowed_origins = [
     "https://localhost:8080",
     "http://localhost:5173",
     "https://localhost",
+    "http://192.168.1.7:8086",
+    "https://192.168.1.7:8086",
+    "https://retro.faizakram.com",
+    "http://retro.faizakram.com",
+    "https://www.retro.faizakram.com",
+    "http://www.retro.faizakram.com",
     "https://quickretro.app",
     "https://demo.quickretro.app"
 ]
