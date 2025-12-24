@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Je concept is verwijderd omdat de kolom is uitgeschakeld.'
         },
         printFooter: 'Gemaakt met',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Offline.',
         notExists: 'Het bord is automatisch verwijderd of handmatig door de maker verwijderd.',
         autoDeleteScheduleBase: 'Dit bord wordt automatisch opgeschoond op {date}',

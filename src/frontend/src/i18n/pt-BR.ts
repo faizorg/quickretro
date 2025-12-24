@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Seu rascunho foi descartado porque a coluna foi desativada.'
         },
         printFooter: 'Criado com',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Você parece estar offline.',
         notExists: 'O quadro foi excluído automaticamente ou manualmente por seu criador.',
         autoDeleteScheduleBase: 'Este quadro será automaticamente limpo em {date}',

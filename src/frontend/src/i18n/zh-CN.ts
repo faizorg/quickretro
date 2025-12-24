@@ -86,6 +86,9 @@ export default {
             discardNewMessages: '您的草稿已被丢弃，因为该列已被禁用。'
         },
         printFooter: '创建于',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: '离线状态',
         notExists: '看板已被自动删除，或由创建者手动删除。',
         autoDeleteScheduleBase: '该看板将于 {date} 自动清理',

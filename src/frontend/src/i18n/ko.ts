@@ -85,6 +85,9 @@ export default {
             discardNewMessages: '열이 비활성화되어 임시 작성 내용이 삭제되었습니다.'
         },
         printFooter: '생성 도구',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: '오프라인 상태',
         notExists: '보드는 자동으로 삭제되었거나 생성자가 수동으로 삭제했습니다.',
         autoDeleteScheduleBase: '{date}에 이 보드는 자동으로 정리됩니다',

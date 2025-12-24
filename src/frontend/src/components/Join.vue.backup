@@ -54,7 +54,7 @@ onMounted(() => {
         </div>
         <div class="w-full max-w-md relative z-10">
             <div class="glass-card dark:glass-card-dark shadow-brand-lg rounded-2xl p-8 border border-purple-200 dark:border-purple-900 animate-scale-in">
-                <div class="flex justify-center items-center h-11 w-full">
+                <div class="flex justify-center items-center h-11 w-full mb-3">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-11 h-11 text-gray-600 dark:text-gray-400"
                         v-if="!isGuestNameValid">
@@ -64,15 +64,16 @@ onMounted(() => {
                     <Avatar :name="guestname" class="w-10 h-10" v-if="isGuestNameValid" />
                 </div>
                 <h2
-                    class="mt-3 text-center text-3xl font-bold tracking-tight text-gray-600 dark:text-gray-400 select-none">
+                    class="mt-3 text-center text-3xl font-bold tracking-tight gradient-text select-none">
                     {{ t('join.label') }}
                 </h2>
+                <p class="text-center text-sm text-gray-600 dark:text-gray-400 mb-4">RetroBoard by Faiz Akram</p>
                 <div class="space-y-4 mt-4">
                     <div>
                         <div class="mt-1">
                             <input v-model.trim="guestname" name="guestname" type="text" :maxlength="MAX_TEXT_LENGTH"
                                 :placeholder="t('join.namePlaceholder')" required
-                                class="px-2 py-2 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200" />
+                                class="px-2 py-2 mt-1 block w-full rounded-lg border-2 border-purple-200 dark:border-purple-800 shadow-sm focus:border-brand-purple focus:outline-none focus:ring-2 focus:ring-brand-purple/50 sm:text-sm dark:bg-slate-800 dark:text-slate-200 transition-all duration-300" />
                         </div>
                         <div class="h-5 flex items-center">
                             <p v-show="!isGuestNameValid" name="guestname-required"
@@ -95,7 +96,6 @@ onMounted(() => {
                         <LanguageSelector />
                     </div>
                 </div>
-            </div>
             <!-- Footer Branding -->
             <div class="mt-6 text-center">
                 <p class="text-xs text-gray-500 dark:text-gray-400">
@@ -105,6 +105,8 @@ onMounted(() => {
                     Professional Sprint Retrospectives
                 </p>
             </div>
+            </div>
         </div>
     </div>
+</template>
 </template>

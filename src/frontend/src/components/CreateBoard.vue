@@ -101,18 +101,30 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="bg-gray-100 dark:bg-gray-950 flex h-screen items-center justify-center p-4">
-        <div class="w-full max-w-md">
-            <div class="bg-white dark:bg-gray-900 shadow-md rounded-md p-5 md:p-8">
-                <h2 class="text-center text-3xl font-bold tracking-tight text-gray-600 dark:text-gray-400 select-none">
+    <div class="bg-gradient-to-br from-purple-50 via-teal-50 to-purple-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex h-screen items-center justify-center p-4 relative overflow-hidden">
+        <!-- Animated background elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 -left-20 w-72 h-72 bg-brand-purple opacity-20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-brand-teal opacity-20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+        </div>
+        <div class="w-full max-w-md relative z-10">
+            <div class="glass-card dark:glass-card-dark shadow-brand-lg rounded-2xl p-5 md:p-8 border border-purple-200 dark:border-purple-900 animate-scale-in">
+                <!-- Branding Header -->
+                <div class="flex items-center justify-center mb-2">
+                    <div class="w-16 h-16 bg-gradient-brand rounded-full flex items-center justify-center shadow-brand">
+                        <span class="text-white font-bold text-2xl">FA</span>
+                    </div>
+                </div>
+                <h2 class="text-center text-3xl font-bold tracking-tight gradient-text select-none mb-1">
                     {{ t('createBoard.label') }}
                 </h2>
+                <p class="text-center text-sm text-gray-600 dark:text-gray-400 mb-4">RetroBoard by Faiz Akram</p>
                 <div class="space-y-2 md:space-y-4 mt-4">
                     <div>
                         <div class="mt-1">
                             <input v-model.trim="boardname" name="name" type="text" :maxlength="MAX_TEXT_LENGTH"
                                 :placeholder="t('createBoard.namePlaceholder')" required autofocus
-                                class="px-2 py-2 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200" />
+                                class="px-2 py-2 mt-1 block w-full rounded-lg border-2 border-purple-200 dark:border-purple-800 shadow-sm focus:border-brand-purple focus:outline-none focus:ring-2 focus:ring-brand-purple/50 sm:text-sm dark:bg-slate-800 dark:text-slate-200 transition-all duration-300" />
                         </div>
                         <p v-show="!boardnameEntered" name="name-required"
                             class="text-sm text-red-600 dark:text-red-300 mt-2 select-none">{{
@@ -122,7 +134,7 @@ onMounted(() => {
                         <div class="mt-1">
                             <input v-model.trim="team" name="team" type="text" :maxlength="MAX_TEXT_LENGTH"
                                 :placeholder="t('createBoard.teamNamePlaceholder')"
-                                class="px-2 py-2 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm dark:bg-slate-800 dark:text-slate-200" />
+                                class="px-2 py-2 mt-1 block w-full rounded-lg border-2 border-purple-200 dark:border-purple-800 shadow-sm focus:border-brand-purple focus:outline-none focus:ring-2 focus:ring-brand-purple/50 sm:text-sm dark:bg-slate-800 dark:text-slate-200 transition-all duration-300" />
                         </div>
                     </div>
                     <div>
@@ -163,14 +175,14 @@ onMounted(() => {
                     </div>
                     <div class="flex w-full gap-2">
                         <button type="submit"
-                            class="flex justify-center px-4 py-2 text-sm w-[90%] shadow-md bg-sky-100 hover:bg-sky-400 border-sky-300 text-sky-600 hover:text-white disabled:bg-gray-300 disabled:text-gray-500 disabled:border-gray-400 disabled:cursor-not-allowed dark:disabled:bg-gray-300 dark:disabled:text-gray-500 dark:disabled:border-gray-400 dark:bg-sky-800 dark:hover:bg-sky-600 dark:border-sky-700 dark:text-sky-100 hover:border-transparent font-medium rounded-md border focus:outline-none focus:ring-2 focus:ring-sky-600 focus:ring-offset-2 dark:focus:ring-2 dark:focus:ring-offset-0 select-none"
+                            class="btn-ripple flex justify-center px-4 py-2 text-sm w-[90%] shadow-brand bg-gradient-brand hover:bg-gradient-brand-hover text-white disabled:bg-gray-300 disabled:text-gray-500 disabled:border-gray-400 disabled:cursor-not-allowed disabled:shadow-none font-medium rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 dark:focus:ring-2 dark:focus:ring-offset-0 select-none transform hover:scale-105 transition-all duration-300"
                             :disabled="!boardnameEntered || !isCategorySelectionValid || (isTurnstileEnabled && !isTurnstileVerified)"
                             @click="create">
                             {{ isSubmitting ? t('createBoard.buttonProgress') : t('createBoard.button') }}
                         </button>
                         <div
-                            class="w-[10%] flex items-center justify-center shadow-md border rounded-md border-sky-200">
-                            <DarkModeToggle class="w-6 h-6 cursor-pointer text-sky-200 hover:text-sky-400" />
+                            class="w-[10%] flex items-center justify-center shadow-md border rounded-lg border-purple-200 dark:border-purple-800 bg-white dark:bg-gray-800 hover:shadow-brand transition-all duration-300">
+                            <DarkModeToggle class="w-6 h-6 cursor-pointer text-purple-400 hover:text-teal-400" />
                         </div>
                     </div>
                     <div class="w-full">
@@ -186,6 +198,15 @@ onMounted(() => {
                         {{ t('createBoard.captchaInfo') }}
                     </div>
                 </div>
+            </div>
+            <!-- Footer Branding -->
+            <div class="mt-6 text-center">
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                    Powered by <a href="https://www.faizakram.com/" target="_blank" rel="noopener noreferrer" class="font-semibold gradient-text hover:opacity-80 transition-opacity">Faiz Akram</a>
+                </p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    Professional Sprint Retrospectives
+                </p>
             </div>
         </div>
     </div>

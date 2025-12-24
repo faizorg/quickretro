@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Twój szkic został odrzucony, ponieważ kolumna została wyłączona.'
         },
         printFooter: 'Stworzone za pomocą',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Wygląda na to, że jesteś offline.',
         notExists: 'Tablica została automatycznie usunięta lub ręcznie usunięta przez jej twórcę.',
         autoDeleteScheduleBase: 'Ta tablica zostanie automatycznie usunięta dnia {date}',

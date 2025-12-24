@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Dein Entwurf wurde verworfen, weil die Spalte deaktiviert wurde.'
         },
         printFooter: 'Erstellt mit',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Offline.',
         notExists: 'Das Board wurde entweder automatisch gelöscht oder manuell von seinem Ersteller entfernt.',
         autoDeleteScheduleBase: 'Dieses Board wird am {date} automatisch bereinigt',

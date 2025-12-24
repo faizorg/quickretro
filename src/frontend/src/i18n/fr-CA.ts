@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Votre brouillon a été supprimé parce que la colonne a été désactivée.'
         },
         printFooter: 'Créé avec',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Hors ligne.',
         notExists: 'Le tableau a été supprimé soit automatiquement, soit manuellement par son créateur.',
         autoDeleteScheduleBase: 'Ce tableau sera automatiquement nettoyé le {date}',

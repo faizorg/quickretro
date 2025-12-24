@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'La tua bozza è stata eliminata perché la colonna è stata disabilitata.'
         },
         printFooter: 'Creato con',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Disconnesso.',
         notExists: 'La bacheca è stata eliminata automaticamente o manualmente dal suo creatore.',
         autoDeleteScheduleBase: 'Questa board verrà pulita automaticamente il {date}',

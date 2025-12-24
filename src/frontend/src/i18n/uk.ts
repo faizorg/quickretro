@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Ваш чернетку було видалено, оскільки стовпець було вимкнено.'
         },
         printFooter: 'Створено за допомогою',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Відсутнє інтернет-зʼєднання.',
         notExists: 'Дошку було видалено автоматично або вручну її творцем.',
         autoDeleteScheduleBase: 'Цю дошку буде автоматично очищено {date}',

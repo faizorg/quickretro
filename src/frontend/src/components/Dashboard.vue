@@ -460,7 +460,7 @@ const print = async () => {
         const html = `
         <html>
             <head>
-                <title>QuickRetro</title>
+                <title>RetroBoard by Faiz Akram</title>
                 <style>
                     @media print {
                         @page {
@@ -553,7 +553,7 @@ const print = async () => {
                     `).join('')}
                 </div>
                 <footer class="print-footer">
-                    ${t('dashboard.printFooter')} QuickRetro ( https://quickretro.app )
+                    ${t('dashboard.printFooter')} RetroBoard by Faiz Akram ( https://www.faizakram.com )
                 </footer>
                 </div>
             </body>
@@ -1167,12 +1167,12 @@ onUnmounted(() => {
                     </p>
                     <div class="flex justify-center mt-4 space-x-2">
                         <button type="button"
-                            class="px-4 py-2 text-sm w-full shadow-md font-medium rounded-md border bg-sky-100 hover:bg-sky-400 border-sky-300 text-sky-600 hover:text-white dark:bg-sky-800 dark:hover:bg-sky-600 dark:border-sky-700 dark:text-sky-100 hover:border-transparent select-none focus:outline-none focus:ring-0"
+                            class="btn-ripple px-4 py-2 text-sm w-full shadow-md font-medium rounded-lg border-0 bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 select-none focus:outline-none transform hover:scale-105 transition-all duration-300"
                             @click="setIsDeleteAllDialogOpen(false)">
                             {{ t('dashboard.delete.cancelDelete') }}
                         </button>
                         <button type="button"
-                            class="px-4 py-2 text-sm w-full shadow-md font-medium rounded-md border bg-red-100 hover:bg-red-400 border-red-300 text-red-600 hover:text-white hover:border-transparent dark:bg-red-800 dark:hover:bg-red-600 dark:border-red-700 dark:text-red-100 select-none focus:outline-none focus:ring-0"
+                            class="btn-ripple px-4 py-2 text-sm w-full shadow-md font-medium rounded-lg border-0 bg-red-500 hover:bg-red-600 text-white select-none focus:outline-none transform hover:scale-105 transition-all duration-300"
                             @click="deleteAll(); setIsDeleteAllDialogOpen(false)">
                             {{ t('dashboard.delete.continueDelete') }}
                         </button>
@@ -1200,7 +1200,7 @@ onUnmounted(() => {
                         class="text-sm text-red-600 dark:text-red-300 mt-2 select-none">
                         {{ t('dashboard.columns.cannotDisable') }}</p>
                     <button type="button"
-                        class="px-4 py-2 mt-2 text-sm w-full shadow-md font-medium rounded-md border bg-sky-100 hover:bg-sky-400 border-sky-300 text-sky-600 hover:text-white hover:border-transparent disabled:bg-gray-300 disabled:text-gray-500 disabled:border-gray-400 disabled:cursor-not-allowed dark:disabled:bg-gray-300 dark:disabled:text-gray-500 dark:disabled:border-gray-400 dark:bg-sky-800 dark:hover:bg-sky-600 dark:border-sky-700 dark:text-sky-100 select-none focus:outline-none focus:ring-0"
+                        class="btn-ripple px-4 py-2 mt-2 text-sm w-full shadow-brand font-medium rounded-lg border-0 bg-gradient-brand hover:bg-gradient-brand-hover text-white disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:shadow-none select-none focus:outline-none focus:ring-2 focus:ring-brand-purple transform hover:scale-105 transition-all duration-300"
                         :disabled="hasCardsInDisabledCategories || !isCategorySelectionValid"
                         @click="saveCategoryChanges">
                         {{ t('dashboard.columns.update') }}
@@ -1210,17 +1210,17 @@ onUnmounted(() => {
         </Dialog>
 
         <!-- Left Sidebar -->
-        <div class="w-16 p-3">
+        <div class="w-16 p-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-r border-purple-200 dark:border-gray-800 shadow-sm">
             <!-- Timer -->
             <CountdownTimer :timeLeftInSeconds="timerExpiresInSeconds" :title="t('dashboard.timer.tooltip')"
-                class="inline-flex items-center justify-center overflow-hidden rounded-full w-10 h-10 text-[0.825rem] leading-[1rem] font-bold text-white ml-auto mx-auto mb-4"
+                class="inline-flex items-center justify-center overflow-hidden rounded-full w-10 h-10 text-[0.825rem] leading-[1rem] font-bold text-white ml-auto mx-auto mb-4 shadow-brand hover:shadow-brand-lg transition-all duration-300 hover:scale-110"
                 :class="isOwner ? 'cursor-pointer' : 'cursor-default'" @click="timerSettings"
                 @countdown-progress-update="onCountdownProgressUpdate" @one-minute-left-warning="onOneMinuteLeftWarning"
                 @countdown-completed="onCountdownCompleted" />
             <!-- Share -->
             <div :title="t('dashboard.share.toolTip')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer" @click="share">
+                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" @click="share">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                 </svg>
@@ -1228,13 +1228,13 @@ onUnmounted(() => {
             <!-- Mask controls -->
             <div :title="!isMasked ? t('dashboard.mask.maskTooltip') : t('dashboard.mask.unmaskTooltip')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer" v-if="isOwner"
+                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     :class="{ 'hidden': isMasked }" @click="mask">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
                 </svg>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer" v-if="isOwner"
+                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     :class="{ 'hidden': !isMasked }" @click="mask">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
@@ -1244,13 +1244,13 @@ onUnmounted(() => {
             <!-- Lock controls -->
             <div :title="!isLocked ? t('dashboard.lock.lockTooltip') : t('dashboard.lock.unlockTooltip')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer" v-if="isOwner"
+                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     :class="{ 'hidden': isLocked }" @click="lock">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                 </svg>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer" v-if="isOwner"
+                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     :class="{ 'hidden': !isLocked }" @click="lock">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
@@ -1259,17 +1259,17 @@ onUnmounted(() => {
             <!-- Print -->
             <div :title="t('dashboard.print.tooltip')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer" v-if="isOwner"
+                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     @click="generateDocument">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                 </svg>
             </div>
-            <DarkModeToggle class="w-8 h-8 mx-auto mb-4 cursor-pointer" />
+            <DarkModeToggle class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" />
             <!-- Focus -->
             <div :title="t('dashboard.spotlight.tooltip')" class="w-8 h-8 mx-auto mb-4 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" @click="openSpotlight">
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" @click="openSpotlight">
                     <circle cx="12" cy="12" r="3" />
                     <path d="M3 7V5a2 2 0 0 1 2-2h2" />
                     <path d="M17 3h2a2 2 0 0 1 2 2v2" />
@@ -1281,7 +1281,7 @@ onUnmounted(() => {
             <div :title="t('dashboard.language.tooltip')">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" @click="openLanguageDialog"
-                    class="w-8 h-8 mx-auto mb-4 cursor-pointer">
+                    class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110">
                     <circle cx="12" cy="12" r="10" />
                     <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
                     <path d="M2 12h20" />
@@ -1290,22 +1290,21 @@ onUnmounted(() => {
             <!-- Delete All-->
             <div :title="t('dashboard.delete.tooltip')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer" v-if="isOwner"
+                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     @click="openDeleteAllDialog">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                 </svg>
             </div>
-            <a href="https://github.com/vijeeshr/quickretro" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-8 w-8 mx-auto mb-4 fill-slate-100">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M12 2C6.477 2 2 6.463 2 11.97c0 4.404 2.865 8.14 6.839 9.458.5.092.682-.216.682-.48 0-.236-.008-.864-.013-1.695-2.782.602-3.369-1.337-3.369-1.337-.454-1.151-1.11-1.458-1.11-1.458-.908-.618.069-.606.069-.606 1.003.07 1.531 1.027 1.531 1.027.892 1.524 2.341 1.084 2.91.828.092-.643.35-1.083.636-1.332-2.22-.251-4.555-1.107-4.555-4.927 0-1.088.39-1.979 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.607 9.607 0 0 1 12 6.82c.85.004 1.705.114 2.504.336 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.386.1 2.638.64.696 1.028 1.587 1.028 2.675 0 3.83-2.339 4.673-4.566 4.92.359.307.678.915.678 1.846 0 1.332-.012 2.407-.012 2.734 0 .267.18.577.688.48 3.97-1.32 6.833-5.054 6.833-9.458C22 6.463 17.522 2 12 2Z">
-                    </path>
+            <a href="https://www.faizakram.com/" target="_blank" rel="noopener noreferrer" :title="t('dashboard.creator.tooltip')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8 mx-auto mb-4 text-purple-400 hover:text-teal-400 transition-colors duration-300">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                    <text x="12" y="15" text-anchor="middle" fill="currentColor" font-size="8" font-weight="bold" font-family="Arial, sans-serif">FA</text>
                 </svg>
             </a>
-            <a href="https://quickretro.app/guide/dashboard" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.faizakram.com/retroboard" target="_blank" rel="noopener noreferrer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="h-8 w-8 mx-auto">
+                    stroke="currentColor" class="h-8 w-8 mx-auto text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
                 </svg>
@@ -1354,7 +1353,7 @@ onUnmounted(() => {
         <!-- Dashboard Content -->
 
         <!-- Right Sidebar -->
-        <div class="w-16 p-4">
+        <div class="w-16 p-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-l border-purple-200 dark:border-gray-800 shadow-sm flex flex-col">
             <div class="relative w-8 h-8 ml-auto mx-auto mb-4">
                 <Avatar :name="nickname" class="w-8 h-8" />
                 <span v-if="myCardsCount > 0"
@@ -1368,6 +1367,17 @@ onUnmounted(() => {
                     class="absolute -top-1 -right-1 bg-red-400 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center select-none">
                     {{ user.cardsCount }}
                 </span>
+            </div>
+            <!-- Footer Branding -->
+            <div class="mt-auto pt-4 border-t border-purple-200 dark:border-gray-800">
+                <a href="https://www.faizakram.com/" target="_blank" rel="noopener noreferrer" class="block">
+                    <div class="w-10 h-10 mx-auto bg-gradient-brand rounded-full flex items-center justify-center shadow-brand hover:shadow-brand-lg transition-all duration-300 hover:scale-110">
+                        <span class="text-white font-bold text-sm">FA</span>
+                    </div>
+                </a>
+                <p class="text-[0.6rem] text-gray-400 dark:text-gray-500 mt-2 text-center leading-tight">
+                    Powered by<br/>Faiz Akram
+                </p>
             </div>
         </div>
         <!-- Right Sidebar -->

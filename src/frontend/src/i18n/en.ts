@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Your draft was discarded because the column was disabled.'
         },
         printFooter: 'Created with',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'You seem to be offline.',
         notExists: 'Board was either auto-deleted, or manually deleted by its creator.',
         autoDeleteScheduleBase: 'This board will be cleaned up automatically on {date}',

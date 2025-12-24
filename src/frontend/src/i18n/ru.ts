@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Ваш черновик был удалён, потому что колонка была отключена.'
         },
         printFooter: 'Создано с',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Офлайн',
         notExists: 'Доска была удалена автоматически или вручную её создателем.',
         autoDeleteScheduleBase: 'Эта доска будет автоматически очищена {date}',

@@ -84,8 +84,9 @@ export default {
             update: "更新",
             discardNewMessages: '列が無効化されたため、下書きは破棄されました。'
         },
-        printFooter: '作成者',
-        offline: 'オフライン',
+        printFooter: '作成者',        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },        offline: 'オフライン',
         notExists: 'ボードは自動的に削除されたか、作成者によって手動で削除されました。',
         autoDeleteScheduleBase: 'このボードは {date} に自動的にクリーンアップされます',
         autoDeleteScheduleAddon: 'ので、手動で削除する必要はありません。'

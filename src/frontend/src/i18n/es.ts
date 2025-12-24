@@ -85,6 +85,9 @@ export default {
             discardNewMessages: 'Tu borrador se ha descartado porque la columna fue deshabilitada.'    
         },
         printFooter: 'Creado con',
+        creator: {
+            tooltip: 'Visit Faiz Akram Portfolio'
+        },
         offline: 'Sin conexión.',
         notExists: 'El tablero fue eliminado automáticamente o lo eliminó manualmente su creador.',
         autoDeleteScheduleBase: 'Este tablero se limpiará automáticamente el {date}',
