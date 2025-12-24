@@ -79,7 +79,7 @@ onUnmounted(() => {
     <div class="select-none font-semibold px-2 py-1 rounded-md transition-all duration-300" 
          :class="remainingTime > 0 
             ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/30' 
-            : 'bg-white dark:bg-gray-800 border-2 border-purple-300 dark:border-purple-700 text-gray-800 dark:text-white'">
+            : 'bg-gradient-to-br from-purple-100 to-teal-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-400 dark:border-purple-600 text-purple-900 dark:text-white shadow-md'">
         {{ formattedRemainingTime }}
     </div>
 </template>

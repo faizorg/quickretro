@@ -1213,7 +1213,7 @@ onUnmounted(() => {
         <div class="w-16 p-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-r border-purple-200 dark:border-gray-800 shadow-sm">
             <!-- Timer -->
             <CountdownTimer :timeLeftInSeconds="timerExpiresInSeconds" :title="t('dashboard.timer.tooltip')"
-                class="inline-flex items-center justify-center overflow-hidden rounded-full w-10 h-10 text-[0.825rem] leading-[1rem] font-bold text-white ml-auto mx-auto mb-4 shadow-brand hover:shadow-brand-lg transition-all duration-300 hover:scale-110"
+                class="inline-flex items-center justify-center overflow-hidden rounded-full w-10 h-10 text-[0.825rem] leading-[1rem] font-bold ml-auto mx-auto mb-4 shadow-brand hover:shadow-brand-lg transition-all duration-300 hover:scale-110"
                 :class="isOwner ? 'cursor-pointer' : 'cursor-default'" @click="timerSettings"
                 @countdown-progress-update="onCountdownProgressUpdate" @one-minute-left-warning="onOneMinuteLeftWarning"
                 @countdown-completed="onCountdownCompleted" />
