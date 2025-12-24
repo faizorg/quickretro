@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { DraftMessage } from '../models/DraftMessage';
 import { assertMessageContentValidation, canAssertMessageContentValidation, MessageContentValidationResult } from '../utils';
 import { useI18n } from 'vue-i18n';
+import { generateUUID } from '../utils/uuid';
 
 const { t } = useI18n()
 const props = defineProps<{ category: string, by: string, nickname: string, board: string }>()
@@ -24,7 +25,7 @@ const add = (event: Event) => {
     }
 
     const payload: DraftMessage = {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       msg: msg,
       cat: props.category,
       anon: false,

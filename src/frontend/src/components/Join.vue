@@ -5,6 +5,7 @@ import DarkModeToggle from './DarkModeToggle.vue';
 import Avatar from './Avatar.vue';
 import { useI18n } from 'vue-i18n';
 import LanguageSelector from './LanguageSelector.vue';
+import { generateUUID } from '../utils/uuid';
 
 const MAX_TEXT_LENGTH: number = Number(import.meta.env.VITE_MAX_TEXT_LENGTH)
 const { t } = useI18n()
@@ -33,10 +34,10 @@ const join = () => {
 
 onMounted(() => {
     if (!localStorage.getItem("user")) {
-        localStorage.setItem("user", crypto.randomUUID())
+        localStorage.setItem("user", generateUUID())
     }
     if (!localStorage.getItem("xid")) {
-        localStorage.setItem("xid", crypto.randomUUID())
+        localStorage.setItem("xid", generateUUID())
     }
 
     const isDark = ref(localStorage.getItem("theme") === "dark")
