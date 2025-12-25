@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Error al crear el tablero'
     },
     dashboard: {
+        emptyCategory: '¡Aún no hay tarjetas. Haz clic en + para agregar una!',
         timer: {
             oneMinuteLeft: 'Queda un minuto',
             timeCompleted: '¡Se ha acabado el tiempo!',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Enfocar tarjetas'
         },
         print: {
-            tooltip: 'Imprimir'
+            tooltip: 'Imprimir',
+            date: 'Fecha'
         },
         language: {
             tooltip : 'Cambiar idioma'

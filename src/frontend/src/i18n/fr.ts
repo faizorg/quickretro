@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Erreur lors de la création du tableau'
     },
     dashboard: {
+        emptyCategory: 'Aucune carte pour l\'instant. Cliquez sur + pour en ajouter une !',
         timer: {
             oneMinuteLeft: 'Une minute restante',
             timeCompleted: 'Temps écoulé !',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Mettre en avant'
         },
         print: {
-            tooltip: 'Imprimer'
+            tooltip: 'Imprimer',
+            date: 'Date'
         },
         language: {
             tooltip : 'Changer de langue'

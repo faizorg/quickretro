@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Error when creating board'
     },
     dashboard: {
+        emptyCategory: 'No cards yet. Click + to add one!',
         timer: {
             oneMinuteLeft: 'One minute left for countdown',
             timeCompleted: "Hey! You've run out of time",
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Focus cards'
         },
         print: {
-            tooltip: 'Print'
+            tooltip: 'Print',
+            date: 'Date'
         },
         language: {
             tooltip: 'Change language'

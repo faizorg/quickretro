@@ -102,10 +102,11 @@ onMounted(() => {
 
 <template>
     <div class="bg-gradient-to-br from-purple-50 via-teal-50 to-purple-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 flex h-screen items-center justify-center p-4 relative overflow-hidden">
-        <!-- Animated background elements -->
+        <!-- Animated gradient mesh background -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute top-1/4 -left-20 w-72 h-72 bg-brand-purple opacity-20 rounded-full blur-3xl animate-float"></div>
-            <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-brand-teal opacity-20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/4 -left-20 w-96 h-96 bg-gradient-to-br from-purple-400 to-purple-600 opacity-30 dark:opacity-20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-1/3 -right-20 w-[30rem] h-[30rem] bg-gradient-to-br from-teal-400 to-teal-600 opacity-30 dark:opacity-20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-fuchsia-400 to-pink-500 opacity-20 dark:opacity-15 rounded-full blur-3xl animate-pulse-slow"></div>
         </div>
         <div class="w-full max-w-md relative z-10">
             <div class="glass-card dark:glass-card-dark shadow-brand-lg rounded-2xl p-5 md:p-8 border border-purple-200 dark:border-purple-900 animate-scale-in">
@@ -173,15 +174,15 @@ onMounted(() => {
                             @valid="(val: boolean) => isCategorySelectionValid = val">
                         </CategoryEditor>
                     </div>
-                    <div class="flex w-full gap-2">
+                    <div class="flex w-full gap-3">
                         <button type="submit"
-                            class="btn-ripple flex justify-center px-4 py-2 text-sm w-[90%] shadow-brand bg-gradient-brand hover:bg-gradient-brand-hover text-white disabled:bg-gray-300 disabled:text-gray-500 disabled:border-gray-400 disabled:cursor-not-allowed disabled:shadow-none font-medium rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 dark:focus:ring-2 dark:focus:ring-offset-0 select-none transform hover:scale-105 transition-all duration-300"
+                            class="btn-ripple flex items-center justify-center px-4 py-3 text-base font-semibold flex-1 shadow-brand bg-gradient-brand hover:bg-gradient-brand-hover text-white disabled:bg-gray-300 disabled:text-gray-500 disabled:border-gray-400 disabled:cursor-not-allowed disabled:shadow-none rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 dark:focus:ring-2 dark:focus:ring-offset-0 select-none transform hover:scale-105 transition-all duration-300"
                             :disabled="!boardnameEntered || !isCategorySelectionValid || (isTurnstileEnabled && !isTurnstileVerified)"
                             @click="create">
                             {{ isSubmitting ? t('createBoard.buttonProgress') : t('createBoard.button') }}
                         </button>
                         <div
-                            class="w-[10%] flex items-center justify-center shadow-md border rounded-lg border-purple-200 dark:border-purple-800 bg-white dark:bg-gray-800 hover:shadow-brand transition-all duration-300">
+                            class="flex items-center justify-center p-3 shadow-md border rounded-lg border-purple-200 dark:border-purple-800 bg-white dark:bg-gray-800 hover:shadow-brand transition-all duration-300">
                             <DarkModeToggle class="w-6 h-6 cursor-pointer text-purple-400 hover:text-teal-400" />
                         </div>
                     </div>

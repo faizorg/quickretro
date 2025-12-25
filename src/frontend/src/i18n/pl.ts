@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Błąd podczas tworzenia tablicy'
     },
     dashboard: {
+        emptyCategory: 'Jeszcze brak kart. Kliknij +, aby dodać!',
         timer: {
             oneMinuteLeft: 'Pozostała jedna minuta do końca odliczania',
             timeCompleted: 'Hej! Czas się skończył',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Skup się na kartach'
         },
         print: {
-            tooltip: 'Drukuj'
+            tooltip: 'Drukuj',
+            date: 'Data'
         },
         language: {
             tooltip: 'Zmień język'

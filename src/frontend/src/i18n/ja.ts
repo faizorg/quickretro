@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'ボードの作成中にエラーが発生しました'
     },
     dashboard: {
+        emptyCategory: 'まだカードがありません。+ をクリックして追加してください！',
         timer: {
             oneMinuteLeft: '残り1分',
             timeCompleted: '時間切れです！',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'カードをフォーカス'
         },
         print: {
-            tooltip: '印刷'
+            tooltip: '印刷',
+            date: '日付'
         },
         language: {
             tooltip : '言語を変更'

@@ -33,6 +33,7 @@ export default {
         boardCreationError: '보드 생성 중 오류 발생'
     },
     dashboard: {
+        emptyCategory: '아직 카드가 없습니다. +를 클릭하여 추가하세요!',
         timer: {
             oneMinuteLeft: '1분 남음',
             timeCompleted: '시간 종료!',
@@ -62,7 +63,8 @@ export default {
             tooltip: '카드 강조'
         },
         print: {
-            tooltip: '인쇄'
+            tooltip: '인쇄',
+            date: '날짜'
         },
         language: {
             tooltip : '언어 변경'

@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Ошибка при создании доски'
     },
     dashboard: {
+        emptyCategory: 'Пока нет карточек. Нажмите +, чтобы добавить!',
         timer: {
             oneMinuteLeft: 'Осталась минута',
             timeCompleted: 'Время вышло!',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Выделить карточки'
         },
         print: {
-            tooltip: 'Печать'
+            tooltip: 'Печать',
+            date: 'Дата'
         },
         language: {
             tooltip : 'Сменить язык'

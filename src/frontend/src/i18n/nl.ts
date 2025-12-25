@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Fout bij het aanmaken van het bord'
     },
     dashboard: {
+        emptyCategory: 'Nog geen kaarten. Klik op + om er een toe te voegen!',
         timer: {
             oneMinuteLeft: 'Nog 1 minuut',
             timeCompleted: 'Tijd is om!',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Focus kaarten'
         },
         print: {
-            tooltip: 'Afdrukken'
+            tooltip: 'Afdrukken',
+            date: 'Datum'
         },
         language: {
             tooltip : 'Taal wijzigen'

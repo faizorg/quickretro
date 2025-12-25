@@ -1,30 +1,33 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { BoardColumn } from '../models/BoardColumn';
 import { useI18n } from 'vue-i18n';
+import draggable from 'vuedraggable';
 
 interface Props {
     column: BoardColumn,
-    // color?: string,
-    // buttonText?: string,
     width?: string,
     buttonHighlight: boolean,
     anonymousButtonHighlight: boolean,
     editable: boolean,
-    locked: boolean
+    locked: boolean,
+    cardCount?: number,
+    cards?: any[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    // color: 'green',
-    // buttonText: 'Add',
     width: 'w-1/3',
     buttonHighlight: false,
-    anonymousButtonHighlight: false
+    anonymousButtonHighlight: false,
+    cardCount: 0,
+    cards: () => []
 })
 
-const emit = defineEmits(['addCard', 'addAnonymousCard', 'categoryClick'])
+const emit = defineEmits(['addCard', 'addAnonymousCard', 'categoryClick', 'cardMoved'])
 
 const { t } = useI18n()
+
+const isDraggingOver = ref(false)
 
 const displayText = computed(() => {
     if (props.column.isDefault) return t(`dashboard.columns.${props.column.id}`)
@@ -37,10 +40,26 @@ const onCategoryClick = () => {
     }
 }
 
-// const emit = defineEmits(['inFocus'])
-// function buttonClick() {
-//     emit('inFocus')
-// }    
+const onDragEnd = (event: any) => {
+    if (event.added) {
+        // Card was dropped into this category
+        const card = event.added.element
+        emit('cardMoved', {
+            card: card,
+            newCategory: props.column.id,
+            oldCategory: card.cat
+        })
+    }
+    isDraggingOver.value = false
+}
+
+const onDragEnter = () => {
+    isDraggingOver.value = true
+}
+
+const onDragLeave = () => {
+    isDraggingOver.value = false
+}
 
 </script>
 
@@ -48,30 +67,37 @@ const onCategoryClick = () => {
     <div class="p-1" :class="[`w-full md:px-6 md:pb-6 md:pt-2 md:${width} min-w-0`]">
 
         <div class="grid grid-cols-2 gap-1 mb-2 min-w-0">
-            <div class="col-span-2 flex items-center justify-center p-1 text-sm w-full font-semibold rounded-md border select-none break-words"
+            <div class="col-span-2 relative flex items-center justify-center p-2 text-sm w-full font-bold rounded-xl border-2 select-none break-words backdrop-blur-md shadow-lg hover:shadow-xl transition-all duration-300"
                 :class="[
-                    `bg-${column.color}-100`,
+                    `bg-${column.color}-100/80`,
                     `border-${column.color}-300`,
-                    `text-${column.color}-600`,
-                    `dark:bg-${column.color}-800`,
+                    `text-${column.color}-700`,
+                    `dark:bg-${column.color}-800/60`,
                     `dark:border-${column.color}-700`,
                     `dark:text-${column.color}-100`,
                     props.editable && !props.locked && [
                         'cursor-pointer',
-                        `hover:bg-${column.color}-400`,
-                        `hover:text-white`,
-                        `dark:hover:bg-${column.color}-600`,
+                        `hover:bg-${column.color}-200`,
+                        `hover:border-${column.color}-400`,
+                        `dark:hover:bg-${column.color}-700/80`,
                     ]
-                ]" @click="onCategoryClick">{{ displayText }}</div>
+                ]" @click="onCategoryClick">
+                <span>{{ displayText }}</span>
+                <span v-if="cardCount > 0" 
+                    class="ml-2 px-2 py-0.5 text-xs font-bold rounded-full bg-white/90 dark:bg-gray-900/90 shadow-sm"
+                    :class="`text-${column.color}-600 dark:text-${column.color}-300`">
+                    {{ cardCount }}
+                </span>
+            </div>
             <button
-                class="rounded-lg border font-bold bg-gray-50 dark:bg-white/30 hover:bg-gray-200 dark:hover:bg-white/40 select-none p-1 shadow-md"
-                :class="{ 'border-sky-400 dark:border-white text-sky-400 hover:text-sky-600 dark:text-white': buttonHighlight, 'border-gray-300 dark:border-white/20 text-gray-600 hover:text-gray-700 dark:text-white': !buttonHighlight }"
+                class="rounded-xl border-2 font-bold bg-white/80 dark:bg-white/20 hover:bg-white dark:hover:bg-white/30 backdrop-blur-sm select-none p-2 shadow-md hover:shadow-lg transform hover:scale-110 active:scale-95 transition-all duration-200"
+                :class="{ 'border-sky-400 dark:border-sky-300 text-sky-500 dark:text-sky-300 ring-2 ring-sky-400/30': buttonHighlight, 'border-gray-300 dark:border-white/20 text-gray-800 dark:text-white hover:border-purple-400 dark:hover:border-purple-400': !buttonHighlight }"
                 @click="$emit('addCard')">
                 +
             </button>
             <button
-                class="rounded-lg border font-semibold bg-gray-50 dark:bg-white/30 hover:bg-gray-200 dark:hover:bg-white/40 flex items-center justify-center p-1 shadow-md"
-                :class="{ 'border-sky-400 dark:border-white text-sky-400 hover:text-sky-600 dark:text-white': anonymousButtonHighlight, 'border-gray-300 dark:border-white/20 text-gray-500 hover:text-gray-700 dark:text-white': !anonymousButtonHighlight }"
+                class="rounded-xl border-2 font-semibold bg-white/80 dark:bg-white/20 hover:bg-white dark:hover:bg-white/30 backdrop-blur-sm flex items-center justify-center p-2 shadow-md hover:shadow-lg transform hover:scale-110 active:scale-95 transition-all duration-200"
+                :class="{ 'border-sky-400 dark:border-sky-300 text-sky-500 dark:text-sky-300 ring-2 ring-sky-400/30': anonymousButtonHighlight, 'border-gray-300 dark:border-white/20 text-gray-700 dark:text-white hover:border-purple-400 dark:hover:border-purple-400': !anonymousButtonHighlight }"
                 @click="$emit('addAnonymousCard')">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
@@ -85,6 +111,21 @@ const onCategoryClick = () => {
             </button>
         </div>
 
-        <slot></slot>
+        <draggable 
+            :list="cards"
+            group="cards"
+            item-key="id"
+            :disabled="locked"
+            @change="onDragEnd"
+            @dragenter="onDragEnter"
+            @dragleave="onDragLeave"
+            class="min-h-[100px] rounded-xl transition-all duration-300"
+            :class="{ 'bg-purple-100/30 dark:bg-purple-900/20 ring-2 ring-purple-400 ring-offset-2': isDraggingOver }">
+            <template #item="{ element }">
+                <div :data-card-id="element.id">
+                    <slot :card="element"></slot>
+                </div>
+            </template>
+        </draggable>
     </div>
 </template>

@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Fehler beim Erstellen des Boards'
     },
     dashboard: {
+        emptyCategory: 'Noch keine Karten. Klicken Sie auf +, um eine hinzuzufügen!',
         timer: {
             oneMinuteLeft: 'Noch eine Minute',
             timeCompleted: 'Zeit abgelaufen!',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Karten fokussieren'
         },
         print: {
-            tooltip: 'Drucken'
+            tooltip: 'Drucken',
+            date: 'Datum'
         },
         language: {
             tooltip : 'Sprache ändern'

@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Erro ao criar o quadro'
     },
     dashboard: {
+        emptyCategory: 'Ainda não há cartões. Clique em + para adicionar um!',
         timer: {
             oneMinuteLeft: 'Último minuto',
             timeCompleted: 'Tempo esgotado!',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Focar cartões'
         },
         print: {
-            tooltip: 'Imprimir'
+            tooltip: 'Imprimir',
+            date: 'Data'
         },
         language: {
             tooltip : 'Mudar idioma'

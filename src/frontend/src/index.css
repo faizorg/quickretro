@@ -3,6 +3,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global Smooth Transitions */
+@layer base {
+  * {
+    @apply transition-colors duration-200;
+  }
+
+  body {
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
 /* Custom Glassmorphism Effects */
 @layer utilities {
   .glass {
@@ -20,15 +34,16 @@
   }
 
   .glass-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.08);
   }
 
   .glass-card-dark {
-    background: rgba(17, 24, 39, 0.9);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(17, 24, 39, 0.95);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
 
   /* Gradient Text */
@@ -37,6 +52,24 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    font-weight: 700;
+  }
+
+  /* Premium Button Styles */
+  .btn-premium {
+    @apply relative overflow-hidden;
+    @apply bg-gradient-brand hover:bg-gradient-brand-hover;
+    @apply text-white font-semibold;
+    @apply shadow-brand hover:shadow-brand-lg;
+    @apply transform hover:scale-105 active:scale-95;
+    @apply transition-all duration-300 ease-out;
+    @apply rounded-xl px-6 py-3;
+  }
+
+  .btn-premium::before {
+    content: '';
+    @apply absolute inset-0 bg-white opacity-0 hover:opacity-10;
+    @apply transition-opacity duration-300;
   }
 
   /* Card Hover Effects */

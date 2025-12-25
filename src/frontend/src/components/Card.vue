@@ -164,15 +164,32 @@ const validate = (event: Event) => {
 
     emit('invalidContent', errorMessage)
 }
+
+const getCategoryBorderColor = () => {
+    const category = props.categories.find(c => c.id === props.card.cat)
+    if (!category) return 'border-l-gray-300 dark:border-l-gray-600'
+    
+    const colorMap: Record<string, string> = {
+        'red': 'border-l-red-500',
+        'green': 'border-l-green-500',
+        'yellow': 'border-l-yellow-500',
+        'fuchsia': 'border-l-fuchsia-500',
+        'orange': 'border-l-orange-500',
+    }
+    
+    return colorMap[category.color] || 'border-l-purple-500'
+}
 </script>
 
 <template>
-    <div class="bg-white dark:bg-gray-700 rounded-lg p-3 mb-2 shadow-xl border" :class="editing && card.mine
-        ? 'border-sky-400 dark:border-white'
-        : 'border-transparent'">
+    <div class="group relative bg-gradient-to-br from-white via-white to-purple-50/40 dark:from-gray-700 dark:via-gray-700 dark:to-gray-800 rounded-2xl p-5 mb-3 shadow-lg hover:shadow-2xl border-l-4 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.01]" 
+        :class="[
+            editing && card.mine ? 'border-l-sky-400 ring-2 ring-sky-400/50 dark:ring-white/50 shadow-sky-400/30' : getCategoryBorderColor(),
+            'border-r border-t border-b border-gray-100/60 dark:border-gray-600/40 backdrop-blur-sm'
+        ]">        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-teal-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
-        <div class="text-gray-500 pb-2 dark:text-white" :class="{ 'blur-sm': mask && !card.mine }">
-            <article class="min-h-4 text-center break-words focus:outline-none"
+        <div class="text-gray-700 dark:text-white pb-3 leading-relaxed" :class="{ 'blur-sm': mask && !card.mine }">
+            <article class="min-h-4 text-center break-words focus:outline-none font-medium"
                 :class="[editing ? 'cursor-auto' : card.mine && !locked ? 'cursor-pointer' : 'cursor-default']"
                 :contenteditable="editing && card.mine && !(locked && editing)" @click="edit" @blur="save"
                 @keydown.enter="saveOnEnter" @input="validate">{{
@@ -193,14 +210,14 @@ const validate = (event: Event) => {
             </div> -->
             <div class="relative inline-flex mr-1 min-w-0 shrink" @click="toggleLike">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6 cursor-pointer"
-                    :class="{ 'text-blue-500 dark:text-white': card.liked }">
+                    stroke="currentColor" class="w-6 h-6 cursor-pointer transition-all duration-200 hover:scale-110"
+                    :class="card.liked ? 'text-blue-500 dark:text-blue-400 fill-blue-500 dark:fill-blue-400 animate-pulse-slow' : 'hover:text-blue-400'">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z">
                     </path>
                 </svg>
                 <span :class="{ 'invisible': card.likes == 0 }"
-                    class="absolute -top-0.5 -left-1.5 cursor-default bg-red-400 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center select-none">
+                    class="absolute -top-0.5 -left-1.5 cursor-default bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center select-none font-semibold shadow-sm">
                     {{ card.likes }}
                 </span>
             </div>

@@ -3,6 +3,9 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+      },
       minHeight: (theme) => ({
         ...theme('spacing'),
       }),
@@ -26,6 +29,9 @@ export default {
         'brand-lg': '0 20px 60px -15px rgba(139, 92, 246, 0.5)',
         'teal': '0 10px 40px -10px rgba(20, 184, 166, 0.4)',
         'glow': '0 0 20px rgba(139, 92, 246, 0.6)',
+        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        'card-brand': '0 10px 30px -5px rgba(139, 92, 246, 0.2), 0 4px 6px -2px rgba(139, 92, 246, 0.05)',
       },
       animation: {
         'float': 'float 3s ease-in-out infinite',

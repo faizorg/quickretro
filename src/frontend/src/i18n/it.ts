@@ -33,6 +33,7 @@ export default {
         boardCreationError: 'Errore durante la creazione della bacheca'
     },
     dashboard: {
+        emptyCategory: 'Nessuna carta ancora. Clicca + per aggiungerne una!',
         timer: {
             oneMinuteLeft: 'Un minuto rimasto',
             timeCompleted: 'Tempo scaduto!',
@@ -62,7 +63,8 @@ export default {
             tooltip: 'Evidenzia carte'
         },
         print: {
-            tooltip: 'Stampa'
+            tooltip: 'Stampa',
+            date: 'Data'
         },
         language: {
             tooltip : 'Cambia lingua'

@@ -297,6 +297,21 @@ const onCategoryChanged = (pyl: CategoryChangeMessage) => {
     dispatchEvent<CategoryChangeEvent>("catchng", { msgId: pyl.msgId, commentIds: commentIds, by: user, grp: board, newcat: pyl.newCategoryId, oldcat: pyl.oldCategoryId })
 }
 
+const handleCardMoved = (event: { card: any, newCategory: string, oldCategory: string }) => {
+    if (event.newCategory === event.oldCategory) return // No change
+    
+    // Use existing category change logic
+    const commentIds = getCommentIds(event.card.id)
+    dispatchEvent<CategoryChangeEvent>("catchng", { 
+        msgId: event.card.id, 
+        commentIds: commentIds, 
+        by: user, 
+        grp: board, 
+        newcat: event.newCategory, 
+        oldcat: event.oldCategory 
+    })
+}
+
 const mask = () => {
     dispatchEvent<MaskEvent>("mask", { by: user, grp: board, mask: !isMasked.value })
 }
@@ -464,16 +479,18 @@ const print = async () => {
                 <style>
                     @media print {
                         @page {
-                            margin: 20px;
+                            margin: 15mm;
                             size: A4 portrait;
                         }
                         
                         body { 
                             margin: 0;
-                            padding: 20px;
+                            padding: 0;
                             -webkit-print-color-adjust: exact;
                             print-color-adjust: exact;
-                            font-family: Arial, sans-serif, "Noto Sans CJK SC", "Hiragino Sans GB";
+                            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+                            color: #1f2937;
+                            line-height: 1.6;
                         }
 
                         .print-section {
@@ -483,77 +500,112 @@ const print = async () => {
                         }
 
                         .print-title {
-                            font-size: 1.5rem;
-                            font-weight: normal;
-                            border-bottom: 1px solid black;
-                            margin: 0 0 1rem 0;
-                            padding: 0.5rem;
+                            font-size: 2rem;
+                            font-weight: 700;
+                            color: #7c3aed;
+                            border-bottom: 3px solid #7c3aed;
+                            margin: 0 0 1.5rem 0;
+                            padding: 0 0 0.75rem 0;
                             page-break-after: avoid;
+                            letter-spacing: -0.025em;
                         }
 
                         .print-columns {
-                            columns: 1;
-                            column-fill: auto;
-                            page-break-inside: avoid;
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                            gap: 1.5rem;
+                            margin-bottom: 2rem;
                         }
 
                         .print-column {
                             page-break-inside: avoid;
                             break-inside: avoid-page;
-                            margin-bottom: 1rem;
+                            background: #f9fafb;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
                         }
 
                         .print-category {
-                            font-weight: bold;
-                            padding: 0.25rem;
+                            font-weight: 700;
+                            font-size: 1.1rem;
+                            padding: 0.75rem 1rem;
                             page-break-after: avoid;
+                            color: white;
+                            letter-spacing: 0.025em;
+                            text-transform: capitalize;
                         }
 
                         .print-card {
-                            padding: 0.5rem;
+                            padding: 0.875rem 1rem;
+                            margin: 0.5rem;
                             page-break-inside: avoid;
-                            color: #505050;
-                            font-size: 1rem;
-                            word-break: break-all;
+                            background: white;
+                            color: #374151;
+                            font-size: 0.95rem;
+                            line-height: 1.6;
+                            word-wrap: break-word;
+                            border-left: 3px solid #e5e7eb;
+                            border-radius: 4px;
+                            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
                         }
 
-                        .print-card:nth-child(even) {
-                            background-color: #f3f3f3;
+                        .print-card:hover {
+                            border-left-color: #7c3aed;
                         }
 
-                        .print-card:nth-child(odd) {
-                            background-color: #ffffff;
+                        .print-card-number {
+                            display: inline-block;
+                            background: #f3f4f6;
+                            color: #6b7280;
+                            font-size: 0.75rem;
+                            font-weight: 600;
+                            padding: 0.125rem 0.5rem;
+                            border-radius: 9999px;
+                            margin-right: 0.5rem;
                         }
 
                         .print-footer {
                             position: fixed;
-                            bottom: 0;
-                            left: 0;
-                            right: 0;
-                            font-size: 0.8rem;
+                            bottom: 10mm;
+                            left: 15mm;
+                            right: 15mm;
+                            font-size: 0.75rem;
                             text-align: center;
                             padding: 0.5rem;
-                            color: gray;
+                            color: #9ca3af;
+                            border-top: 1px solid #e5e7eb;
+                        }
+
+                        .print-meta {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 1rem;
+                            font-size: 0.875rem;
+                            color: #6b7280;
                         }
                     }
                 </style>
             </head>
             <body>
                 <div class="print-section">
-                <h1 class="print-title">${t('common.board')} - ${sanitize(boardName.value)}</h1>
+                <h1 class="print-title">${sanitize(boardName.value)}</h1>
+                <div class="print-meta">
+                    <span><strong>${t('dashboard.print.date')}:</strong> ${new Date().toLocaleDateString()}</span>
+                </div>
                 <div class="print-columns">
-                    ${columns.value.map(col => `
+                    ${columns.value.map(col => {
+                        const categoryCards = cards.value.filter(c => c.cat.toLowerCase() === col.id.toLowerCase() && c.msg && c.msg.trim() !== '')
+                        return `
                     <div class="print-column">
-                        <div class="print-category" style="background-color:${getHexizedColor(col.color)};color:white">${col.isDefault ? t(`dashboard.columns.${col.id}`) : sanitize(col.text)}</div>
-                        ${cards.value
-                .filter(c => c.cat.toLowerCase() === col.id.toLowerCase() && c.msg && c.msg.trim() !== '')
-                .map(c => `<div class="print-card">${sanitize(c.msg)}</div>`)
-                .join('')}
+                        <div class="print-category" style="background-color:${getHexizedColor(col.color)};">${col.isDefault ? t(`dashboard.columns.${col.id}`) : sanitize(col.text)}</div>
+                        ${categoryCards.length > 0 ? categoryCards.map((c, idx) => `<div class="print-card"><span class="print-card-number">${idx + 1}</span>${sanitize(c.msg)}</div>`).join('') : '<div class="print-card" style="color: #9ca3af; font-style: italic;">' + t('dashboard.emptyCategory') + '</div>'}
                     </div>
-                    `).join('')}
+                    `
+                    }).join('')}
                 </div>
                 <footer class="print-footer">
-                    ${t('dashboard.printFooter')} RetroBoard by Faiz Akram ( https://www.faizakram.com )
+                    ${t('dashboard.printFooter')} <strong>RetroBoard</strong> by <strong>Faiz Akram</strong> | https://www.faizakram.com
                 </footer>
                 </div>
             </body>
@@ -1211,7 +1263,8 @@ onUnmounted(() => {
         </Dialog>
 
         <!-- Left Sidebar -->
-        <div class="w-16 p-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-r border-purple-200 dark:border-gray-800 shadow-sm">
+        <div class="w-16 p-3 bg-white/98 dark:bg-gray-900/98 backdrop-blur-xl border-r-2 border-purple-200/80 dark:border-purple-900/50 shadow-xl"
+            style="box-shadow: 4px 0 24px -8px rgba(139, 92, 246, 0.15);">
             <!-- Timer -->
             <CountdownTimer :timeLeftInSeconds="timerExpiresInSeconds" :title="t('dashboard.timer.tooltip')"
                 class="inline-flex items-center justify-center overflow-hidden rounded-full w-10 h-10 text-[0.825rem] leading-[1rem] font-bold ml-auto mx-auto mb-4 shadow-brand hover:shadow-brand-lg transition-all duration-300 hover:scale-110"
@@ -1219,17 +1272,19 @@ onUnmounted(() => {
                 @countdown-progress-update="onCountdownProgressUpdate" @one-minute-left-warning="onOneMinuteLeftWarning"
                 @countdown-completed="onCountdownCompleted" />
             <!-- Share -->
-            <div :title="t('dashboard.share.toolTip')">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" @click="share">
+            <div :title="t('dashboard.share.toolTip')" class="relative group">
+                <div class="absolute inset-0 bg-gradient-brand rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" class="relative w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" @click="share">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                 </svg>
             </div>
             <!-- Mask controls -->
-            <div :title="!isMasked ? t('dashboard.mask.maskTooltip') : t('dashboard.mask.unmaskTooltip')">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
+            <div :title="!isMasked ? t('dashboard.mask.maskTooltip') : t('dashboard.mask.unmaskTooltip')" class="relative group">
+                <div class="absolute inset-0 bg-gradient-brand rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" class="relative w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     :class="{ 'hidden': isMasked }" @click="mask">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
@@ -1243,66 +1298,70 @@ onUnmounted(() => {
                 </svg>
             </div>
             <!-- Lock controls -->
-            <div :title="!isLocked ? t('dashboard.lock.lockTooltip') : t('dashboard.lock.unlockTooltip')">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
+            <div :title="!isLocked ? t('dashboard.lock.lockTooltip') : t('dashboard.lock.unlockTooltip')" class="relative group">
+                <div class="absolute inset-0 bg-gradient-brand rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" class="relative w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     :class="{ 'hidden': isLocked }" @click="lock">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                 </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" class="relative w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     :class="{ 'hidden': !isLocked }" @click="lock">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                 </svg>
             </div>
             <!-- Print -->
-            <div :title="t('dashboard.print.tooltip')">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
+            <div :title="t('dashboard.print.tooltip')" class="relative group">
+                <div class="absolute inset-0 bg-gradient-brand rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" class="relative w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     @click="generateDocument">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z" />
                 </svg>
             </div>
             <DarkModeToggle class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" />
-            <!-- Focus -->
-            <div :title="t('dashboard.spotlight.tooltip')" class="w-8 h-8 mx-auto mb-4 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" @click="openSpotlight">
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M3 7V5a2 2 0 0 1 2-2h2" />
-                    <path d="M17 3h2a2 2 0 0 1 2 2v2" />
-                    <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
-                    <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+            <!-- Focus / Hand Raise -->
+            <div :title="t('dashboard.spotlight.tooltip')" class="relative group">
+                <div class="absolute inset-0 bg-gradient-brand rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" class="relative w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110" @click="openSpotlight">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 0 1 3.15 0V15M6.9 7.575a1.575 1.575 0 1 0-3.15 0v8.175a6.75 6.75 0 0 0 6.75 6.75h2.018a5.25 5.25 0 0 0 3.712-1.538l1.732-1.732a5.25 5.25 0 0 0 1.538-3.712l.003-2.024a.668.668 0 0 1 .198-.471 1.575 1.575 0 1 0-2.228-2.228 3.818 3.818 0 0 0-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0 1 16.35 15m.002 0h-.002" />
                 </svg>
             </div>
             <!-- Language picker -->
-            <div :title="t('dashboard.language.tooltip')">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" @click="openLanguageDialog"
-                    class="w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                    <path d="M2 12h20" />
+            <div :title="t('dashboard.language.tooltip')" class="relative group">
+                <div class="absolute inset-0 bg-gradient-brand rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" @click="openLanguageDialog"
+                    class="relative w-8 h-8 mx-auto mb-4 cursor-pointer text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110">
+                    <path stroke-linecap="round" stroke-linejoin="round" 
+                        d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" />
                 </svg>
             </div>
             <!-- Delete All-->
-            <div :title="t('dashboard.delete.tooltip')">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 mx-auto mb-4 cursor-pointer text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-all duration-300 hover:scale-110" v-if="isOwner"
+            <div :title="t('dashboard.delete.tooltip')" class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" class="relative w-8 h-8 mx-auto mb-4 cursor-pointer text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-all duration-300 hover:scale-110" v-if="isOwner"
                     @click="openDeleteAllDialog">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                 </svg>
             </div>
-            <a href="https://www.faizakram.com/" target="_blank" rel="noopener noreferrer" :title="t('dashboard.creator.tooltip')">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8 mx-auto mb-4 text-purple-400 hover:text-teal-400 transition-colors duration-300">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-                    <text x="12" y="15" text-anchor="middle" fill="currentColor" font-size="8" font-weight="bold" font-family="Arial, sans-serif">FA</text>
-                </svg>
-            </a>
+            <!-- Portfolio / Creator Link -->
+            <div class="relative group">
+                <a href="https://www.faizakram.com/" target="_blank" rel="noopener noreferrer" :title="t('dashboard.creator.tooltip')" class="block">
+                    <div class="absolute inset-0 bg-gradient-brand rounded-xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+                    <div class="relative w-10 h-10 mx-auto mb-4 bg-gradient-brand rounded-xl flex items-center justify-center shadow-brand hover:shadow-brand-lg transition-all duration-300 hover:scale-110 cursor-pointer">
+                        <span class="text-white font-bold text-base">FA</span>
+                    </div>
+                </a>
+            </div>
             <a href="https://www.faizakram.com/retroboard" target="_blank" rel="noopener noreferrer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="h-8 w-8 mx-auto text-purple-500 dark:text-purple-400 hover:text-teal-500 dark:hover:text-teal-400 transition-all duration-300 hover:scale-110">
@@ -1329,14 +1388,18 @@ onUnmounted(() => {
                 <Category v-for="column in columns" :key="column.id" :column="column" :width="columnWidthClass"
                     :button-highlight="newCardCategory == column.id"
                     :anonymous-button-highlight="newAnonymousCardCategory == column.id" :editable="isOwner"
-                    :locked="isLocked" @add-card="add(column.id, false)" @add-anonymous-card="add(column.id, true)"
-                    @category-click="openColumnEditDialog">
-                    <NewCard v-if="newCardCategory == column.id" :category="column.id" :by="user" :nickname="nickname"
-                        :board="board" @added="onAdded" @invalidContent="onInvalidContent" @discard="onDiscard" />
-                    <NewAnonymousCard v-if="newAnonymousCardCategory == column.id" :category="column.id" :by="user"
-                        nickname="" :board="board" @added="onAdded" @invalidContent="onInvalidContent"
-                        @discard="onDiscard" />
-                    <Card v-for="card in filterCards(column.id)" :card="card" :comments="filterComments(card.id)"
+                    :locked="isLocked" :card-count="filterCards(column.id).length" 
+                    :cards="filterCards(column.id)"
+                    @add-card="add(column.id, false)" @add-anonymous-card="add(column.id, true)"
+                    @category-click="openColumnEditDialog"
+                    @card-moved="handleCardMoved">
+                    <template #default="{ card }">
+                        <NewCard v-if="newCardCategory == column.id && !card" :category="column.id" :by="user" :nickname="nickname"
+                            :board="board" @added="onAdded" @invalidContent="onInvalidContent" @discard="onDiscard" />
+                        <NewAnonymousCard v-if="newAnonymousCardCategory == column.id && !card" :category="column.id" :by="user"
+                            nickname="" :board="board" @added="onAdded" @invalidContent="onInvalidContent"
+                            @discard="onDiscard" />
+                        <Card v-if="card" :card="card" :comments="filterComments(card.id)"
                         :current-user="user" :current-user-nickname="nickname" :board="board" :mask="isMasked"
                         :can-manage="isOwner" :key="card.id" :categories="columns" :locked="isLocked"
                         @updated="onUpdated" @deleted="onDeleted" @liked="onLiked" @category-changed="onCategoryChanged"
@@ -1348,13 +1411,25 @@ onUnmounted(() => {
                             'bg-white dark:bg-gray-400 opacity-10 z-[51] pointer-events-none': isSpotlightOn && usersWithCards.length > 0 && card.byxid !== spotlightFor?.byxid,
                             'bg-black dark:bg-black border border-gray-200 z-[51]': isSpotlightOn && usersWithCards.length > 0 && card.byxid === spotlightFor?.byxid,
                         }" />
+                        <!-- Empty State -->
+                        <div v-if="!card && filterCards(column.id).length === 0 && newCardCategory !== column.id && newAnonymousCardCategory !== column.id" 
+                            class="flex flex-col items-center justify-center py-12 px-4 text-center opacity-50 hover:opacity-70 transition-opacity duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" 
+                                stroke="currentColor" class="w-16 h-16 mb-3 text-gray-400 dark:text-gray-500">
+                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                            </svg>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('dashboard.emptyCategory') }}</p>
+                        </div>
+                    </template>
                 </Category>
             </div>
         </div>
         <!-- Dashboard Content -->
 
         <!-- Right Sidebar -->
-        <div class="w-16 p-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-l border-purple-200 dark:border-gray-800 shadow-sm flex flex-col">
+        <div class="w-16 p-4 bg-white/98 dark:bg-gray-900/98 backdrop-blur-xl border-l-2 border-purple-200/80 dark:border-purple-900/50 shadow-xl flex flex-col"
+            style="box-shadow: -4px 0 24px -8px rgba(139, 92, 246, 0.15);">
             <div class="relative w-8 h-8 ml-auto mx-auto mb-4">
                 <Avatar :name="nickname" class="w-8 h-8" />
                 <span v-if="myCardsCount > 0"

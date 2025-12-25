@@ -34,6 +34,7 @@ export default {
         boardCreationError: '创建看板时出错'
     },
     dashboard: {
+        emptyCategory: '还没有卡片。点击 + 添加！',
         timer: {
             oneMinuteLeft: '剩余一分钟',
             timeCompleted: '时间到！',
@@ -63,7 +64,8 @@ export default {
             tooltip: '聚焦卡片'
         },
         print: {
-            tooltip: '打印'
+            tooltip: '打印',
+            date: '日期'
         },
         language: {
             tooltip : '更改语言'
